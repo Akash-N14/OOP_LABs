@@ -1,75 +1,42 @@
 import java.util.Scanner;
 
-class Student {
-    String name;
-    int id;
+class NumberFormatter
+{
+    String number;
+    String formattednum = " ";
 
-    Student(String name,int id)
+    NumberFormatter(String number)
     {
-        this.name = name;
-        this.id = id;
+        this.number = number;
     }
-}
 
-class Sports extends Student {
-    int s_grade;
-
-    Sports(String name,int id,int s_grade)
+    void addCommas()
     {
-        super(name, id);
-        this.s_grade = s_grade;
+        int length = number.length();
+        int comma = length % 3;
+        for (int i = 0; i < length; i++) {
+            formattednum += number.charAt(i);
+            if ((i + 1) % 3 == comma && i != length - 1) {
+                formattednum += ",";
+            }
+        }
     }
-}
 
-class Exam extends Sports {
-    int e_grade;
-
-    Exam(String name,int id,int s_grade,int e_grade)
+    void display()
     {
-        super(name, id, s_grade);
-        this.e_grade = e_grade;
+        System.out.println("Formatted number: "+formattednum);
     }
 }
 
-class Results extends Exam {
-    String finalResult;
-    Results(String name,int id,int s_grade,int e_grade,String finalResult) {
-        super(name, id, s_grade, e_grade);
-        this.finalResult = finalResult;
-    }
-
-    void display() {
-        System.out.println("Name: " + name);
-        System.out.println("ID: " + id);
-        System.out.println("Sports Grade: " + s_grade);
-        System.out.println("Exam Grade: " + e_grade);
-        System.out.println("Final Result: " + finalResult);
-    }
-}
-
-public class q6 {
+public class q6
+{
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String name,finalResult;
-        int id,s_grade,e_grade;
-        System.out.print("Enter name: ");
-        name = scanner.nextLine();
-
-        System.out.print("Enter ID: ");
-        id = scanner.nextInt();
-
-        System.out.print("Enter Sports grade: ");
-        s_grade = scanner.nextInt();
-
-        System.out.print("Enter Exam grade: ");
-        e_grade = scanner.nextInt();
-
-        scanner.nextLine(); // Consume newline left-over
-
-        System.out.print("Enter final result: ");
-        finalResult = scanner.nextLine();
-        Results results = new Results(name,id,s_grade,e_grade,finalResult);
-        results.display();
-        scanner.close();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number: ");
+        String num = sc.nextLine();
+        NumberFormatter nf = new NumberFormatter(num);
+        nf.addCommas();
+        nf.display();
+        sc.close();
     }
 }
