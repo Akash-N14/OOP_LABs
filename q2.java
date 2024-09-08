@@ -1,76 +1,90 @@
-class EMPLOYEE {
-    String name;
-    double basicSalary;
+import java.util.Scanner;
 
-    EMPLOYEE(String name, double basicSalary) {
-        this.name = name;
-        this.basicSalary = basicSalary;
+class Student
+{
+    String sname, initial = " ";
+    String wname = " ";
+
+    Student(String sname)
+    {
+        this.sname = sname;
     }
 
-    double calculateSalary() {
-        return basicSalary;
+    void extractInitials()
+    {
+        if (sname.length() > 0) {
+            initial += Character.toUpperCase(sname.charAt(0));
+            for (int i = 1; i < sname.length(); i++) {
+                if (sname.charAt(i - 1) == ' ') {
+                    initial += sname.charAt(i);
+                }
+            }
+        }
     }
 
-    void displayEmployeeDetails() {
-        System.out.println("Name: " + name);
-        System.out.println("Basic Salary: " + basicSalary);
-    }
-}
-
-class FullTimeEmp extends EMPLOYEE {
-    double bonus;
-    double deductions;
-
-    FullTimeEmp(String name, double basicSalary, double bonus, double deductions) {
-        super(name, basicSalary);
-        this.bonus = bonus;
-        this.deductions = deductions;
+    void removeWhitespace()
+    {
+        wname = sname.replaceAll("\\s", "");
     }
 
-    @Override
-    double calculateSalary() {
-        return basicSalary + bonus - deductions;
+    void substring(String sub)
+    {
+        if (sname.contains(sub)) {
+            display();
+        }
     }
 
-    @Override
-    void displayEmployeeDetails() {
-        super.displayEmployeeDetails();
-        System.out.println("Bonus: " + bonus);
-        System.out.println("Deductions: " + deductions);
-        System.out.println("Total Salary: " + calculateSalary());
-    }
-}
-
-class PartTimeEmp extends EMPLOYEE {
-    int hoursWorked;
-    static final double hourlyRate = 20.0;
-
-    PartTimeEmp(String name, double basicSalary, int hoursWorked) {
-        super(name, basicSalary);
-        this.hoursWorked = hoursWorked;
+    static void sort(Student[] s,int n)
+    {
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (s[i].sname.compareTo(s[j].sname) > 0) {
+                    Student temp = s[i];
+                    s[i] = s[j];
+                    s[j] = temp;
+                }
+            }
+        }
     }
 
-    @Override
-    double calculateSalary() {
-        return hoursWorked * hourlyRate;
-    }
-
-    @Override
-    void displayEmployeeDetails() {
-        super.displayEmployeeDetails();
-        System.out.println("Hours Worked: " + hoursWorked);
-        System.out.println("Hourly Rate: " + hourlyRate);
-        System.out.println("Total Salary: " + calculateSalary());
+    void display()
+    {
+        System.out.println("Student name: "   + sname);
+        System.out.println("Initials: " + initial);
+        System.out.println("Name without whitespace: "   + wname);
     }
 }
 
-public class q2 {
-    public static void main(String[] args) {
-        FullTimeEmp fullTimeEmployee = new FullTimeEmp("Akshat", 5000, 800, 200);
-        PartTimeEmp partTimeEmployee = new PartTimeEmp("Animesh", 0, 120);
-        System.out.println("Full Time Employee Details:");
-        fullTimeEmployee.displayEmployeeDetails();
-        System.out.println("\nPart Time Employee Details:");
-        partTimeEmployee.displayEmployeeDetails();
+public class q2
+{
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter number of Students: ");
+        int n = sc.nextInt();
+        sc.nextLine();
+        Student[] s1 = new Student[n];
+        for(int i=0;i<n;i++)
+        {
+            System.out.print("Enter the name of student " + (i + 1) + ": ");
+            String sname = sc.nextLine();
+            s1[i] = new Student(sname);
+            s1[i].extractInitials();
+            s1[i].removeWhitespace();
+        }
+        System.out.print("Enter substring to search: ");
+        String sub = sc.nextLine();
+        System.out.println("Students with names containing the substring:");
+        for(int i=0;i<n;i++)
+        {
+            s1[i].substring(sub);
+        }
+        Student.sort(s1, n);
+        System.out.println("After sorting:");
+        for (int i = 0; i < n; i++) {
+            s1[i].display();
+            System.out.println();
+        }
+        sc.close();
     }
 }
