@@ -2,14 +2,23 @@ import java.util.Scanner;
 class STUDENT {
     String name;
     int rollNumber;
+    int[] marks;
     int totalMarks;
     double averageMarks;
 
-    public STUDENT(String name, int rollNumber) {
+    public STUDENT(String name, int rollNumber, int[] marks) {
         this.name = name;
         this.rollNumber = rollNumber;
+        this.marks = marks;
     }
+
     public void compute() {
+        totalMarks = 0;
+        for(int mark:marks)
+        {
+            totalMarks += mark;
+        }
+        averageMarks = totalMarks / marks.length;
     }
     public void display() {
         System.out.println("Name: " + name);
@@ -20,13 +29,14 @@ class STUDENT {
 }
 class ScienceStudent extends STUDENT {
     private int practicalMarks;
-    public ScienceStudent(String name, int rollNumber, int practicalMarks) {
-        super(name, rollNumber);
+
+    public ScienceStudent(String name, int rollNumber, int[] marks, int practicalMarks) {
+        super(name, rollNumber,marks);
         this.practicalMarks = practicalMarks;
     }
     public void compute() {
-        totalMarks = practicalMarks;
-        averageMarks = totalMarks;
+        totalMarks +=practicalMarks ;
+        averageMarks = totalMarks/marks.length+1;
     }
     public void displayPracticalMarks() {
         System.out.println("Practical Marks: " + practicalMarks);
@@ -37,26 +47,20 @@ class ScienceStudent extends STUDENT {
     }
 }
 class ArtsStudent extends STUDENT {
-    private int subjectMarks;
     private String electiveSubject;
-    public ArtsStudent(String name, int rollNumber, int subjectMarks, String electiveSubject) {
-        super(name, rollNumber);
-        this.subjectMarks = subjectMarks;
+    public ArtsStudent(String name, int rollNumber, int[] marks, String electiveSubject) {
+        super(name, rollNumber,marks);
         this.electiveSubject = electiveSubject;
-    }
-    public void compute() {
-        totalMarks = subjectMarks;
-        averageMarks = totalMarks;
     }
     public void display() {
         super.display();
-        System.out.println("Subject Marks: " + subjectMarks);
         System.out.println("Elective Subject: " + electiveSubject);
     }
 }
 public class q1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int[] marks = { 90, 67, 89, 60, 66 };
         System.out.print("Enter student name: ");
         String name = scanner.nextLine();
         System.out.print("Enter roll number: ");
@@ -65,15 +69,13 @@ public class q1 {
         System.out.print("Enter practical marks for Science student: ");
         int practicalMarks = scanner.nextInt();
         scanner.nextLine();
-        ScienceStudent scienceStudent = new ScienceStudent(name, rollNumber, practicalMarks);
+        ScienceStudent scienceStudent = new ScienceStudent(name, rollNumber, marks, practicalMarks);
         scienceStudent.compute();
         scienceStudent.display();
-        System.out.print("Enter subject marks for Arts student: ");
-        int subjectMarks = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter elective subject for Arts student: ");
         String electiveSubject = scanner.nextLine();
-        ArtsStudent artsStudent = new ArtsStudent(name, rollNumber, subjectMarks, electiveSubject);
+        ArtsStudent artsStudent = new ArtsStudent(name, rollNumber, marks, electiveSubject);
         artsStudent.compute();
         artsStudent.display();
         scanner.close();
